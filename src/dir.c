@@ -1,11 +1,12 @@
 #include <dir.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 struct buster_dir *buster_dir_init(char *host) {
     struct buster_dir *ret = (struct buster_dir *)malloc(
             sizeof(struct buster_dir));
     ret->wordlist_stream = stdin;
-    ret->nthreads = 10U
+    ret->nthreads = 10U;
 
     ret->host = host;
     ret->user_agent = "cbuster";
