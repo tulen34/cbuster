@@ -13,7 +13,7 @@ OBJECTS  = $(patsubst $(SOURCES_DIR)/%.c, $(OBJECTS_DIR)/%.o, $(SOURCES))
 MAIN     = main.c
 
 define status
-	printf "[\033[37;2m%s\033[0m] \033[32;1m%s\033[0m\n" `date +"%T"` $1
+	printf "  \033[32;1m%s\033[0m\n" $1
 endef
 
 all: clean build run
