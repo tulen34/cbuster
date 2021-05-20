@@ -1,19 +1,25 @@
 #ifndef _DIR_H
 #define _DIR_H
 
+#include <utils.h>
 #include <stdio.h>
 
 struct buster_dir {
-    FILE *wordlist_stream;
+    FILE *wordlist;
     unsigned int nthreads;
 
-    char *host;
-    char *user_agent;
-    char *http_username, *http_password;
+    char host[UTILS_STRSIZE + 1];
+    char user_agent[UTILS_STRSIZE + 1];
+    char http_username[UTILS_STRSIZE + 1];
+    char http_password[UTILS_STRSIZE + 1];
 
-    char *proxy, *proxy_username, *proxy_password;
+    char proxy[UTILS_STRSIZE + 1];
+    char proxy_username[UTILS_STRSIZE + 1];
+    char proxy_password[UTILS_STRSIZE + 1];
 };
 
-struct buster_dir *buster_dir_init(char *host);
+struct buster_dir *buster_dir_init(const char *host, FILE *wordlist);
 
-#endif
+int buster_dir_set_rand_user_agent(struct buster_dir *dir, const char *path);
+
+#endif // _DIR_H
