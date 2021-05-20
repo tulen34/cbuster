@@ -20,7 +20,7 @@ struct buster_dir *buster_dir_init(const char *host, FILE *wordlist) {
     strcpy(dir->host, host);
 
     dir->wordlist = wordlist == NULL ? stdin : wordlist;
-    sprintf(dir->user_agent, "cbuster/%s", BUSTER_VERSION);
+    sprintf(dir->user_agent, "cbuster/%s", UTILS_VERSION);
     dir->nthreads = 8U;
     return dir;
 }
@@ -42,6 +42,6 @@ int buster_dir_set_rand_user_agent(struct buster_dir *dir, const char *path) {
     srand(time(NULL));
     int nline = rand() % nlines + 1;
     for (int i = 0; i < nline; ++i)
-        fgets(dir->user_agent, STRSIZE, fp);
+        fgets(dir->user_agent, UTILS_STRSIZE, fp);
     return EXIT_SUCCESS;
 }
