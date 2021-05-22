@@ -16,6 +16,8 @@ define status
 	printf "  \033[32;1m%s\033[0m\n" $1
 endef
 
+.PHONY: all build clean run
+
 all: clean build run
 
 build: $(OBJECTS) $(OBJECTS_DIR) $(BINARY_DIR)
