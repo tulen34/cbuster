@@ -38,8 +38,8 @@ ret:
     return s;
 }
 
-int *busterdir_curl_multi_add_handle(struct busterdir dir, 
-                                     CURLM *curlm, FILE *devnull) {
+int busterdir_curl_multi_add_handle(struct busterdir dir, 
+                                    CURLM *curlm, FILE *restrict devnull) {
     CURL *curl = curl_easy_init();
     if (curl == NULL)
         return EIO;
