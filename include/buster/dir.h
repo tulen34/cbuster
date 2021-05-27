@@ -2,8 +2,9 @@
 #define _DIR_H
 
 #include <stdio.h>
+#include <stdbool.h>
 
-#ifndef
+#ifndef USERAGENTS_PATH 
 # define USERAGENTS_PATH "etc/dir/user-agents.txt"
 #endif
 
