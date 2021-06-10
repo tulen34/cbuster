@@ -5,6 +5,9 @@
 
 #define BUSTER_VERSION "0.1"
 
-char *buster_wordlist_gets(char *restrict s, size_t n, FILE *restrict stream);
+struct wordlist {
+    char **buf;
+    size_t pos;
+};
 
 #endif // _BUSTER_H
