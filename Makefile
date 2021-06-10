@@ -1,6 +1,6 @@
 CC      ?= /bin/cc
-CFLAGS  = -g -Wall
-LDLIBS  = -lm -pthread -lcurl
+CFLAGS  = -g -Wall -Wextra -Wconversion -Wstrict-prototypes
+LDLIBS  = -lcurl
 
 SOURCES_DIR = src
 OBJECTS_DIR = obj
@@ -20,19 +20,19 @@ endef
 
 all: clean build run
 
-build: $(OBJECTS) $(OBJECTS_DIR) $(BINARY_DIR)
-	@$(call status, "Compiling binary file to $(BINARY) from $(MAIN)$(OBJECTS)")
-	$(CC) $(CFLAGS) $(INCLUDES) $(MAIN) $(OBJECTS) -o $(BINARY) $(LDLIBS)
-
-$(OBJECTS_DIR)/%.o: $(SOURCES_DIR)/%.c $(OBJECTS_DIR)
-	@$(call status, "Compiling object file from $< to $@")
-	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@ $(LDLIBS)
-
 $(OBJECTS_DIR):
 	mkdir -p obj
 
 $(BINARY_DIR):
 	mkdir -p bin
+
+$(OBJECTS_DIR)/%.o: $(SOURCES_DIR)/%.c $(OBJECTS_DIR)
+	@$(call status, "Compiling object file to $@ from $<")
+	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@ $(LDLIBS)
+
+build: $(OBJECTS) $(OBJECTS_DIR) $(BINARY_DIR)
+	@$(call status, "Compiling binary file to $(BINARY) from $(MAIN)$(OBJECTS)")
+	$(CC) $(CFLAGS) $(INCLUDES) $(MAIN) $(OBJECTS) -o $(BINARY) $(LDLIBS)
 
 clean:
 	@$(call status, "Cleaning")
