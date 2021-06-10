@@ -10,4 +10,8 @@ struct wordlist {
     size_t pos;
 };
 
+char *wordlist_next(struct wordlist *wl);
+
+struct wordlist *wordlist_init(FILE *stream);
+
 #endif // _BUSTER_H
