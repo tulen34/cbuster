@@ -5,13 +5,6 @@
 
 #define BUSTER_VERSION "0.1"
 
-struct wordlist {
-    char **buf;
-    size_t pos;
-};
-
-char *wordlist_next(struct wordlist *wl);
-
-struct wordlist *wordlist_init(FILE *stream);
+char **wordlist_read(FILE *stream);
 
 #endif // _BUSTER_H
