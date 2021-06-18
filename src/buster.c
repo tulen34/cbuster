@@ -4,46 +4,22 @@
 #include <stdlib.h>
 #include <string.h>
 
-struct wordlist *wordlist_init(FILE *stream) {
-    struct wordlist *wl = malloc(sizeof(struct wordlist));
-    if (wl == NULL)
-        return NULL;
+#define STRSIZE 4096
 
-    fseek(stream, 0L, SEEK_END);
-    long nbytes = ftell(stream);
+char **wordlist_read(FILE *stream) {
+    int ch, nlines, stat, i;
+    char **wl, s[STRSIZE];
+
+    nlines = 0;
+    while ((ch = fgetc(fp)) != EOF)
+        if (ch == '\n') ++nlines;
     rewind(stream);
 
-    char *text = calloc((size_t)nbytes, sizeof(char));
-    if (text == NULL) {
-        free(wl);
-        return NULL;
-    }
-    fread(text, sizeof(char), (size_t)nbytes, stream);
+    wl = calloc((size_t)nlines, sizeof(char *));
+    if (wl == NULL) return NULL;
 
-    int nlines = 0;
-    for (int i = 0; i < nbytes; ++i)
-        if (text[i] == '\n')
-            ++nlines;
-
-    wl->buf = calloc((size_t)nlines, sizeof(char *));
-    if (wl->buf == NULL) {
-        free(wl);
-        free(text);
-        return NULL;
-    }
-
-    int nchars = 0;
-    int top = 0;
-    for (int i = 0; i < nbytes; ++i) {
-        if (text[i] != '\n' && text[i] != '#') {
-            ++nchars;
-            continue;
-        }
-        char *start = text + i - nchars;
-        wl->buf[top++] = strndup(start, (size_t)nchars - 1);
-        nchars = 0;
-    }
-
-    free(text);
+    i = 0;
+    while ((stat = fscanf(stream, "%[^#\n]s\n", s)) != EOF)
+        if (stat == 1) wl[i++] = strdup(s);
     return wl;
 }
