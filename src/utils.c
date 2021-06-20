@@ -1,6 +1,5 @@
-#include <buster.h>
+#include <utils.h>
 
-#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -11,7 +10,7 @@ char **wordlist_read(FILE *stream) {
     char **wl, s[STRSIZE];
 
     nlines = 0;
-    while ((ch = fgetc(fp)) != EOF)
+    while ((ch = fgetc(stream)) != EOF)
         if (ch == '\n') ++nlines;
     rewind(stream);
 

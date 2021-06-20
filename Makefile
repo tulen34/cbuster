@@ -7,10 +7,9 @@ OBJECTS_DIR = obj
 BINARY_DIR  = bin
 BINARY      = $(BINARY_DIR)/cbuster
 
-INCLUDES = -I./include
+INCLUDES = -I./src
 SOURCES  = $(wildcard $(SOURCES_DIR)/*.c)
 OBJECTS  = $(patsubst $(SOURCES_DIR)/%.c, $(OBJECTS_DIR)/%.o, $(SOURCES))
-MAIN     = main.c
 
 define status
 	printf "  \033[32;1m%s\033[0m\n" $1
@@ -31,7 +30,7 @@ $(OBJECTS_DIR)/%.o: $(SOURCES_DIR)/%.c $(OBJECTS_DIR)
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@ $(LDLIBS)
 
 build: $(OBJECTS) $(OBJECTS_DIR) $(BINARY_DIR)
-	@$(call status, "Compiling binary file to $(BINARY) from $(MAIN)$(OBJECTS)")
+	@$(call status, "Compiling binary file")
 	$(CC) $(CFLAGS) $(INCLUDES) $(MAIN) $(OBJECTS) -o $(BINARY) $(LDLIBS)
 
 clean:
