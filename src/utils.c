@@ -4,48 +4,42 @@
 #include <errno.h>
 
 #define STRSIZE 4096
-#define FORMAT "%[^#\n]s\n"
 
-struct bwordlist *
-bwordlist_read(FILE *stream) {
+int
+bwordlist_read(FILE *fp, struct bwordlist *wlp) {
     int ch, nlines, stat;
     char s[STRSIZE];
-    struct bwordlist *wl;
-
-    wl = malloc(sizeof(struct bwordlist));
-    if (wl == NULL) 
-        goto enomem;
 
     nlines = 0;
     while ((ch = fgetc(stream)) != EOF)
         if (ch == '\n') 
             ++nlines;
-    wl->buf = calloc((size_t)nlines, sizeof(char *));
-    if (wl->buf == NULL) 
+    wlp->buf = calloc((size_t)nlines, sizeof(char *));
+    if (wlp->buf == NULL) 
         goto enomem;
 
-    while ((stat = fscanf(stream, FORMAT, s)) != EOF) {
+    while ((stat = fscanf(stream, "%[^#\n]s\n" s)) != EOF) {
         if (stat != 1)
             continue;
-        if ((wl->buf[wl->len++] = strdup(s)) == NULL)
+        if ((wlp->buf[wlp->len++] = strdup(s)) == NULL) {
+            bwordlist_cleanup(*wlp);
             goto enomem;
+        }
     }
 
-    return wl;
+    return EXIT_SUCCESS;
 enomem:
-    if (wl != NULL) 
-        bwordlist_free(wl);
-    errno = ENOMEM;
-    return NULL;
+    wlp = NULL;
+    return (errno = ENOMEM);
 }
 
+
 void 
-bwordlist_free(struct bwordlist *wl) {
+bwordlist_cleanup(struct bwordlist wl) {
     int i;
 
-    for (i = 0; i < (long)wl->len; ++i) 
-        if (wl->buf[i] != NULL)
-            free(wl->buf[i]);
-    free(wl->buf);
-    free(wl);
+    for (i = 0; i < (long)wl.len; ++i) 
+        if (wl.buf[i] != NULL)
+            free(wl.buf[i]);
+    free(wl.buf);
 }

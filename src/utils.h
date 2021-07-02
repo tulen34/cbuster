@@ -12,16 +12,16 @@ struct bwordlist {
     size_t len;
 };
 
-struct bwordlist *
-bwordlist_read(FILE *stream);
+int
+bwordlist_read(FILE *fp, struct bwordlist *wlp);
 
 void 
-bwordlist_free(struct bwordlist *wl);
+bwordlist_cleanup(struct bwordlist wl);
 
 struct boptions {
-    struct bwordlist *wordlist;
+    struct bwordlist wordlist;
     time_t delay;
     size_t routines;
 };
 
-#endif // _UTILS_H
+#endif /* _UTILS_H */
