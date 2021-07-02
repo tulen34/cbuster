@@ -1,5 +1,5 @@
-#ifndef _UTILS_H
-#define _UTILS_H
+#ifndef _BASE_H
+#define _BASE_H
 
 #include <stdio.h>
 #include <stdbool.h>
@@ -24,4 +24,4 @@ struct boptions {
     size_t routines;
 };
 
-#endif /* _UTILS_H */
+#endif /* _BASE_H */
