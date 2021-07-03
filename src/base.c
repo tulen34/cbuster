@@ -39,7 +39,6 @@ bwordlist_cleanup(struct bwordlist wl) {
     int i;
 
     for (i = 0; i < (long)wl.len; ++i) 
-        if (wl.buf[i] != NULL)
-            free(wl.buf[i]);
+        free(wl.buf[i]);
     free(wl.buf);
 }
