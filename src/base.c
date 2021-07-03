@@ -11,14 +11,14 @@ bwordlist_read(FILE *fp, struct bwordlist *wlp) {
     char s[STRSIZE];
 
     nlines = 0;
-    while ((ch = fgetc(stream)) != EOF)
+    while ((ch = fgetc(fp)) != EOF)
         if (ch == '\n') 
             ++nlines;
     wlp->buf = calloc((size_t)nlines, sizeof(char *));
     if (wlp->buf == NULL) 
         goto enomem;
 
-    while ((stat = fscanf(stream, "%[^#\n]s\n" s)) != EOF) {
+    while ((stat = fscanf(fp, "%[^#\n]s\n", s)) != EOF) {
         if (stat != 1)
             continue;
         if ((wlp->buf[wlp->len++] = strdup(s)) == NULL) {

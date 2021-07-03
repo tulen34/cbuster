@@ -2,7 +2,6 @@
 #define _BASE_H
 
 #include <stdio.h>
-#include <stdbool.h>
 #include <time.h>
 
 #define BUSTER_VERSION "0.1"
