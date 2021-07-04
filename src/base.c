@@ -1,5 +1,6 @@
 #include <base.h>
 #include <stdlib.h>
+#include <stdarg.h>
 #include <string.h>
 #include <errno.h>
 
@@ -41,4 +42,28 @@ bwordlist_cleanup(struct bwordlist wl) {
     for (i = 0; i < (long)wl.len; ++i) 
         free(wl.buf[i]);
     free(wl.buf);
+}
+
+
+int
+blogger_logf(struct blogger log, enum blogger_level level, 
+             const char *format, ...) {
+    int stat;
+    va_list ap;
+
+    if (log.level < level)
+        return 0;
+    va_start(ap, format);
+
+    if (log.outputfp != NULL)
+        vfprintf(log.outputfp, format, ap);
+    stat = vprintf(format, ap);
+
+    va_end(ap);
+    return stat;
+}
+
+void
+blogger_cleanup(struct blogger log) {
+    fclose(log.output);
 }
