@@ -46,24 +46,23 @@ bwordlist_cleanup(struct bwordlist wl) {
 
 
 int
-blogger_logf(struct blogger log, enum blogger_level level, 
+blogger_logf(struct blogger lg, enum blogger_level level, 
              const char *format, ...) {
     int stat;
     va_list ap;
 
-    if (log.level < level)
+    if (lg.level < level)
         return 0;
+
     va_start(ap, format);
-
-    if (log.outputfp != NULL)
-        vfprintf(log.outputfp, format, ap);
+    if (lg.outputfp != NULL)
+        vfprintf(lg.outputfp, format, ap);
     stat = vprintf(format, ap);
-
     va_end(ap);
     return stat;
 }
 
 void
-blogger_cleanup(struct blogger log) {
-    fclose(log.output);
+blogger_cleanup(struct blogger lg) {
+    fclose(lg.output);
 }

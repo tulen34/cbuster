@@ -30,11 +30,11 @@ struct blogger {
 };
 
 int
-blogger_logf(struct blogger log, enum blogger_level level, 
+blogger_logf(struct blogger lg, enum blogger_level level, 
              const char *format, ...);
 
 void
-blogger_cleanup(struct blogger log);
+blogger_cleanup(struct blogger lg);
 
 struct boptions {
     struct bwordlist wordlist;
