@@ -15,6 +15,7 @@ bwordlist_read(FILE *fp, struct bwordlist *wlp) {
     while ((ch = fgetc(fp)) != EOF)
         if (ch == '\n') 
             ++nlines;
+    rewind(fp);
     wlp->buf = calloc((size_t)nlines, sizeof(char *));
     if (wlp->buf == NULL) 
         goto enomem;
@@ -55,8 +56,8 @@ blogger_logf(struct blogger lg, enum blogger_level level,
         return 0;
 
     va_start(ap, format);
-    if (lg.outputfp != NULL)
-        vfprintf(lg.outputfp, format, ap);
+    if (lg.output != NULL)
+        vfprintf(lg.output, format, ap);
     stat = vprintf(format, ap);
     va_end(ap);
     return stat;
