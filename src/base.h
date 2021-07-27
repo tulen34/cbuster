@@ -8,14 +8,15 @@
 
 struct bwordlist {
     char **buf;
-    size_t len;
+    long pos;
+    long len;
 };
 
 int
 bwordlist_read(FILE *fp, struct bwordlist *wlp);
 
 void 
-bwordlist_cleanup(struct bwordlist wl);
+bwordlist_cleanup(struct bwordlist *wlp);
 
 enum blogger_level {
     ERROR,
@@ -26,19 +27,19 @@ enum blogger_level {
 
 struct blogger {
     enum blogger_level level;
-    FILE *output;
+    FILE *outputfp;
 };
 
 int
-blogger_logf(struct blogger lg, enum blogger_level level, 
+blogger_logf(struct blogger *lp, enum blogger_level level, 
              const char *format, ...);
 
 void
-blogger_cleanup(struct blogger lg);
+blogger_cleanup(struct blogger *lp);
 
 struct boptions {
-    struct bwordlist wordlist;
-    struct blogger logger;
+    struct bwordlist *wordlist;
+    struct blogger *logger;
     time_t delay;
     size_t routines;
 };
