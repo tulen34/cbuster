@@ -1,5 +1,5 @@
-#ifndef _BASE_H
-#define _BASE_H
+#ifndef _BBASE_H
+#define _BBASE_H
 
 #include <stdio.h>
 #include <time.h>
@@ -44,4 +44,4 @@ struct boptions {
     size_t routines;
 };
 
-#endif /* _BASE_H */
+#endif /* _BBASE_H */
