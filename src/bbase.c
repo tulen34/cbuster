@@ -49,7 +49,7 @@ bwordlist_cleanup(struct bwordlist *wlp) {
 
 int
 blogger_logf(struct blogger *lp, enum blogger_level level, 
-             const char *format, ...) {
+        const char *format, ...) {
     int stat;
     va_list ap;
 

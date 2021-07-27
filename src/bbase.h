@@ -32,7 +32,7 @@ struct blogger {
 
 int
 blogger_logf(struct blogger *lp, enum blogger_level level, 
-             const char *format, ...);
+        const char *format, ...);
 
 void
 blogger_cleanup(struct blogger *lp);
