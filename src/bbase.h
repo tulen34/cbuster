@@ -8,8 +8,8 @@
 
 struct bwordlist {
     char **buf;
-    long pos;
-    long len;
+    unsigned long pos;
+    unsigned long len;
 };
 
 int
@@ -31,7 +31,7 @@ struct blogger {
 };
 
 int
-blogger_logf(struct blogger *lp, enum blogger_level level, 
+blogger_logf(const struct blogger *lp, enum blogger_level level, 
         const char *format, ...);
 
 void
@@ -40,8 +40,11 @@ blogger_cleanup(struct blogger *lp);
 struct boptions {
     struct bwordlist *wordlist;
     struct blogger *logger;
-    time_t delay;
-    size_t routines;
+    unsigned long delay;
+    unsigned long routines;
 };
+
+int
+boptions_sleep(const struct boptions *op);
 
 #endif /* _BBASE_H */

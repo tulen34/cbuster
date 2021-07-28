@@ -40,7 +40,7 @@ enomem:
 
 void
 bwordlist_cleanup(struct bwordlist *wlp) {
-    int i;
+    unsigned int i;
 
     for (i = 0; i < wlp->len; ++i)
         free(wlp->buf[i]);
@@ -48,7 +48,7 @@ bwordlist_cleanup(struct bwordlist *wlp) {
 }
 
 int
-blogger_logf(struct blogger *lp, enum blogger_level level, 
+blogger_logf(const struct blogger *lp, enum blogger_level level, 
         const char *format, ...) {
     int stat;
     va_list ap;
@@ -67,4 +67,14 @@ blogger_logf(struct blogger *lp, enum blogger_level level,
 void
 blogger_cleanup(struct blogger *lp) {
     fclose(lp->outputfp);
+}
+
+int
+boptions_sleep(const struct boptions *op) {
+    struct timespec ts = {
+        .tv_sec = (long)op->delay / 1000,
+        .tv_nsec = ((long)op->delay % 1000) * 1000000
+    };
+
+    return nanosleep(&ts, NULL);
 }
