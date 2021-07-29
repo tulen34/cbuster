@@ -2,13 +2,11 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdarg.h>
-#include <stdbool.h>
 #include <errno.h>
 
 #define STRSIZE 4096
 
-int
-bwordlist_read(FILE *fp, struct bwordlist *wlp) {
+int bwordlist_read(FILE *fp, struct bwordlist *wlp) {
     int ch;
     size_t n = 0;
     char s[STRSIZE];
@@ -38,42 +36,39 @@ enomem:
     return (errno = ENOMEM);
 }
 
-void
-bwordlist_cleanup(struct bwordlist *wlp) {
-    unsigned int i;
+void bwordlist_cleanup(struct bwordlist *wlp) {
+    unsigned i;
 
     for (i = 0; i < wlp->len; ++i)
         free(wlp->buf[i]);
     free(wlp->buf);
 }
 
-int
-blogger_logf(const struct blogger *lp, enum blogger_level level, 
+int blogger_logf(const struct blogger *lp, enum blogger_level level, 
         const char *format, ...) {
     int stat;
     va_list ap;
 
     if (lp->level < level)
-        return 0;
-
+        continue;
     va_start(ap, format);
-    if (lp->outputfp != NULL)
-        vfprintf(lp->outputfp, format, ap);
+
+    if (lp->handler != NULL)
+        vfprintf(lp->handler, format, ap);
     stat = vprintf(format, ap);
+
     va_end(ap);
     return stat;
 }
 
-void
-blogger_cleanup(struct blogger *lp) {
-    fclose(lp->outputfp);
+void blogger_cleanup(struct blogger *lp) {
+    fclose(lp->handler);
 }
 
-int
-boptions_sleep(const struct boptions *op) {
+int bbase_sleep(const struct bbase *ob) {
     struct timespec ts = {
-        .tv_sec = (long)op->delay / 1000,
-        .tv_nsec = ((long)op->delay % 1000) * 1000000
+        .tv_sec = (long)ob->delay / 1000,
+        .tv_nsec = ((long)ob->delay % 1000) * 1000000
     };
 
     return nanosleep(&ts, NULL);

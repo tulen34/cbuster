@@ -12,11 +12,9 @@ struct bwordlist {
     unsigned long len;
 };
 
-int
-bwordlist_read(FILE *fp, struct bwordlist *wlp);
+int bwordlist_read(FILE *fp, struct bwordlist *wlp);
 
-void 
-bwordlist_cleanup(struct bwordlist *wlp);
+void bwordlist_cleanup(struct bwordlist *wlp);
 
 enum blogger_level {
     ERROR,
@@ -27,24 +25,22 @@ enum blogger_level {
 
 struct blogger {
     enum blogger_level level;
-    FILE *outputfp;
+    FILE *handler;
 };
 
-int
-blogger_logf(const struct blogger *lp, enum blogger_level level, 
+int blogger_logf(const struct blogger *lp, enum blogger_level level, 
         const char *format, ...);
 
-void
-blogger_cleanup(struct blogger *lp);
+void blogger_cleanup(struct blogger *lp);
 
-struct boptions {
-    struct bwordlist *wordlist;
-    struct blogger *logger;
+struct bbase {
+    struct bwordlist wordlist;
+    struct blogger logger;
+
     unsigned long delay;
     unsigned long routines;
 };
 
-int
-boptions_sleep(const struct boptions *op);
+int bbase_sleep(const struct bbase *bp);
 
 #endif /* _BBASE_H */
