@@ -43,4 +43,6 @@ struct bbase {
 
 int bbase_sleep(const struct bbase *bp);
 
+void bbase_cleanup(struct bbase *bp);
+
 #endif /* _BBASE_H */

@@ -50,7 +50,7 @@ int blogger_logf(const struct blogger *lp, enum blogger_level level,
     va_list ap;
 
     if (lp->level < level)
-        continue;
+        return 0;
     va_start(ap, format);
 
     if (lp->handler != NULL)
@@ -62,14 +62,20 @@ int blogger_logf(const struct blogger *lp, enum blogger_level level,
 }
 
 void blogger_cleanup(struct blogger *lp) {
-    fclose(lp->handler);
+    if (lp->handler != NULL)
+        fclose(lp->handler);
 }
 
-int bbase_sleep(const struct bbase *ob) {
+int bbase_sleep(const struct bbase *bp) {
     struct timespec ts = {
-        .tv_sec = (long)ob->delay / 1000,
-        .tv_nsec = ((long)ob->delay % 1000) * 1000000
+        .tv_sec = (long)bp->delay / 1000,
+        .tv_nsec = ((long)bp->delay % 1000) * 1000000
     };
 
     return nanosleep(&ts, NULL);
+}
+
+void bbase_cleanup(struct bbase *bp) {
+    blogger_cleanup(&bp->logger);
+    bwordlist_cleanup(&bp->wordlist);
 }
